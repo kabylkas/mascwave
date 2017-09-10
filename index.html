@@ -1,0 +1,44 @@
+<html>
+<script src="default.js" type="text/javascript"></script>
+<script src="wavedrom.js" type="text/javascript"></script>
+<script src="narrow.js" type="text/javascript"></script>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" href="index.css">
+
+<body onload="WaveDrom.ProcessAll()">
+<!-- Start: Menu Bar -->
+<div style="display:table;table-layout:fixed;background-color:#dddddd;width:100%">
+<div class="top_menu" id="top_menu_file">File</div>
+<div class="top_menu" id="top_menu_edit">Edit</div>
+<div class="top_menu" id="top_menu_search">Search</div>
+<div class="top_menu" id="top_menu_time">Time</div>
+<div class="top_menu" id="top_menu_markers">Markers</div>
+<div class="top_menu" id="top_menu_view">View</div>
+<div class="top_menu" id="top_menu_help">Help</div>
+</div>
+<!-- End: Menu Bar -->
+
+<!-- Start: Wavedrom -->
+<div id="wave_window" style="width:50%;float:left">
+<script type="WaveDrom">
+{ signal : [
+  { name: "clk",  wave: "p........." },
+  { name: "bus",  wave: "x.34.5x...",   data: "head body tail" },
+  { name: "wire", wave: "0.1..0...." },
+]}
+</script>
+</div>
+<!-- End: Wavedrom -->
+<script>
+//$(document).ready( function() {
+//$('#wave_window').animate({ 'zoom': 2.5 }, 400);
+//});
+</script>
+</body>
+
+</html>
