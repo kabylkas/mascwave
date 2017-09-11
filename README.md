@@ -16,3 +16,7 @@ Meta: First Commit with Necessary Source Files.
 Date: Sep 10, 2017
 Author: Muhammad Zian Ilahee
 Meta: Updated the URL link in README.md and Altered the colors on default.js 
+
+Date: Sep 11, 2017
+Author: Muhammad Zian Ilahee
+Meta: Hover implemented. Everytime a wave is hovered over, an alert pops up. Currently I am trying to implement a method to display the id.
