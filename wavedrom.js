@@ -2064,7 +2064,7 @@ function renderWaveLane (root, content, index, lane) {
                     //b.setAttribute('id',content[j][1][i]);//MZI-MOD Add Attribute to wavelength.
                     //b.setAttribute('class','wave-unit');//MZI-MOD Add Attribute to wavelength.
                     //b.setAttribute('style','fill:blue;')
-                    b.setAttribute('onmouseover','alert("You hovered over");');//MZI-MOD Add Attribute to wavelength.
+                    b.setAttribute('onmouseover','alert("You hovered over '+content[j][1][i]+'");');//MZI-MOD Add Attribute to wavelength.
                    //b.onmouseover = b.style("fill", "yellow");
                     //var mzi = k;//MZI-MOD Add hover effect
                     // b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
