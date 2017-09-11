@@ -13,6 +13,8 @@
             t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+
+// MZI-NOTE: Right Click to Save as PNG or SVG
 function appendSaveAsDialog (index, output) {
     var div;
     var menu;
@@ -164,11 +166,11 @@ var eva = require('./eva'),
 
 function editorRefresh () {
     // var svg,
-    // 	ser,
-    // 	ssvg,
-    // 	asvg,
-    // 	sjson,
-    // 	ajson;
+    //  ser,
+    //  ssvg,
+    //  asvg,
+    //  sjson,
+    //  ajson;
 
     renderWaveForm(0, eva('InputJSON_0'), 'WaveDrom_Display_');
 
@@ -1186,7 +1188,7 @@ function processAll () {
             points.item(i).setAttribute('id', 'InputJSON_' + index);
 
             node0 = document.createElement('div');
-            //			node0.className += 'WaveDrom_Display_' + index;
+            //          node0.className += 'WaveDrom_Display_' + index;
             node0.id = 'WaveDrom_Display_' + index;
             points.item(i).parentNode.insertBefore(node0, points.item(i));
             // WaveDrom.InsertSVGTemplate(i, node0);
@@ -1199,7 +1201,7 @@ function processAll () {
         appendSaveAsDialog(i, 'WaveDrom_Display_');
     }
     // add styles
-    document.head.innerHTML += '<style type="text/css">div.wavedromMenu{position:fixed;border:solid 1pt#CCCCCC;background-color:white;box-shadow:0px 10px 20px #808080;cursor:default;margin:0px;padding:0px;}div.wavedromMenu>ul{margin:0px;padding:0px;}div.wavedromMenu>ul>li{padding:2px 10px;list-style:none;}div.wavedromMenu>ul>li:hover{background-color:#b5d5ff;}</style>';
+    document.head.innerHTML += '<style type="text/css">div.wavedromMenu{position:fixed;border:solid 1pt#CCCCCC;background-color:white;box-shadow:0px 10px 20px #808080;cursor:default;margin:0px;padding:0px;}div.wavedromMenu>ul{margin:0px;padding:0px;}div.wavedromMenu>ul>li{padding:2px 10px;list-style:none;}div.wavedromMenu>ul>li:hover{background-color:#b5d5ff;}.wave-unit:hover{fill:#0000ff;}</style>';
 }
 
 module.exports = processAll;
@@ -1244,6 +1246,8 @@ var tspan = require('tspan'),
     jsonmlParse = require('./create-element'),
     w3 = require('./w3');
 
+
+// MZI-NOTE: Parse clock ups and downs...
  function renderArcs (root, source, index, top, lane) {
      var gg,
          i,
@@ -1508,6 +1512,8 @@ function render (tree, state) {
     return state;
 }
 
+
+//MZI-NOTE : Logic Gates
 function draw_body (type, ymin, ymax) {
     var e,
         iecs,
@@ -1556,6 +1562,8 @@ function draw_body (type, ymin, ymax) {
     }
 }
 
+
+// MZI-NOTE: Gate drawing
 function draw_gate (spec) { // ['type', [x,y], [x,y] ... ]
     var i,
         ret = ['g'],
@@ -1765,7 +1773,7 @@ function renderGroups (groups, index, lane) {
                 d: ('m ' + (e.x + 0.5) + ',' + (e.y * lane.yo + 3.5 + lane.yh0 + lane.yh1)
                     + ' c -3,0 -5,2 -5,5 l 0,' + (e.height * lane.yo - 16)
                     + ' c 0,3 2,5 5,5'),
-                style: 'stroke:#0041c4;stroke-width:1;fill:none'
+                style: 'stroke:#0041c4;stroke-width:1;fill:red'
             }
         ]);
 
@@ -2051,12 +2059,13 @@ function renderWaveLane (root, content, index, lane) {
             if (content[j][1]) {
                 for (i = 0; i < content[j][1].length; i += 1) {
                     b = document.createElementNS(w3.svg, 'use');
-                    // b.id = 'use_' + i + '_' + j + '_' + index;
+                     b.id = 'use_' + i + '_' + j + '_' + index;
                     b.setAttributeNS(w3.xlink, 'xlink:href', '#' + content[j][1][i]);
-                    b.setAttribute('id',content[j][1][i]);//MZI-MOD Add Attribute to wavelength.
-                    b.setAttribute('class','wave-unit');//MZI-MOD Add Attribute to wavelength.
-                    b.setAttribute('style','background-color:blue;')
-
+                    //b.setAttribute('id',content[j][1][i]);//MZI-MOD Add Attribute to wavelength.
+                    //b.setAttribute('class','wave-unit');//MZI-MOD Add Attribute to wavelength.
+                    //b.setAttribute('style','fill:blue;')
+                    b.setAttribute('onmouseover','alert("You hovered over");');//MZI-MOD Add Attribute to wavelength.
+                   //b.onmouseover = b.style("fill", "yellow");
                     //var mzi = k;//MZI-MOD Add hover effect
                     // b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
                     b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
