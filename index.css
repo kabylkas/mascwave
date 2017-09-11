@@ -6,3 +6,11 @@
 #wave_window {
     zoom:2.5;
 }
+
+#pclk:hover {
+    fill:#0000ff;
+}
+
+.wave-unit:hover{
+  fill:#0000ff;
+}
