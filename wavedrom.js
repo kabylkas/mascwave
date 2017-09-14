@@ -2072,6 +2072,7 @@ function renderWaveLane (root, content, index, lane) {
                    b.onclick = function(e) {
                        var att_name = e.target.attributes.item(1).nodeName;
                        var att_val = e.target.attributes.item(1).nodeValue;
+                       if(att_val.includes("pclk") || att_val.includes("nclk"))
                        if(att_val.includes("g")){
                             att_val = att_val.substr(0,att_val.length-1);
                        }else{
