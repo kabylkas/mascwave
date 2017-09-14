@@ -1201,7 +1201,7 @@ function processAll () {
         appendSaveAsDialog(i, 'WaveDrom_Display_');
     }
     // add styles
-    document.head.innerHTML += '<style type="text/css">div.wavedromMenu{position:fixed;border:solid 1pt#CCCCCC;background-color:white;box-shadow:0px 10px 20px #808080;cursor:default;margin:0px;padding:0px;}div.wavedromMenu>ul{margin:0px;padding:0px;}div.wavedromMenu>ul>li{padding:2px 10px;list-style:none;}div.wavedromMenu>ul>li:hover{background-color:#b5d5ff;}.wave-unit:hover{fill:#0000ff;}</style>';
+    document.head.innerHTML += '<style type="text/css">div.wavedromMenu{position:fixed;border:solid 1pt#CCCCCC;background-color:white;box-shadow:0px 10px 20px #808080;cursor:default;margin:0px;padding:0px;}div.wavedromMenu>ul{margin:0px;padding:0px;}div.wavedromMenu>ul>li{padding:2px 10px;list-style:none;}div.wavedromMenu>ul>li:hover{background-color:#b5d5ff;}h1.wave-unit:hover{fill:#0000ff;}</style>';
 }
 
 module.exports = processAll;
@@ -2059,15 +2059,30 @@ function renderWaveLane (root, content, index, lane) {
             if (content[j][1]) {
                 for (i = 0; i < content[j][1].length; i += 1) {
                     b = document.createElementNS(w3.svg, 'use');
-                     b.id = 'use_' + i + '_' + j + '_' + index;
+                     var my_id = 'use_' + i + '_' + j + '_' + index;
+                     b.id = my_id;
                     b.setAttributeNS(w3.xlink, 'xlink:href', '#' + content[j][1][i]);
+                    var my_content = content[j][1][i];
                     //b.setAttribute('id',content[j][1][i]);//MZI-MOD Add Attribute to wavelength.
                     //b.setAttribute('class','wave-unit');//MZI-MOD Add Attribute to wavelength.
                     //b.setAttribute('style','fill:blue;')
-                    b.setAttribute('onmouseover','alert("You hovered over '+content[j][1][i]+'");');//MZI-MOD Add Attribute to wavelength.
-                   //b.onmouseover = b.style("fill", "yellow");
+                    //b.setAttribute('onmouseover','var k=4;alert("You hovered over '+content[j][1][i]+' "+k+" "+i );');//MZI-MOD Add Attribute to wavelength.
                     //var mzi = k;//MZI-MOD Add hover effect
                     // b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
+                   b.onclick = function(e) {
+                       var att_name = e.target.attributes.item(1).nodeName;
+                       var att_val = e.target.attributes.item(1).nodeValue;
+                       if(att_val.includes("g")){
+                            att_val = att_val.substr(0,att_val.length-1);
+                       }else{
+                           att_val += "g";
+                       }
+                       e.target.setAttribute(att_name,att_val);
+
+                       var p = 8;
+                        //alert(att_name+"\n"+e.target.attributes.item(1).nodeValue);
+                    }
+
                     b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
                     gg.insertBefore(b, null);
                 }
@@ -2105,7 +2120,9 @@ function renderWaveLane (root, content, index, lane) {
 
     return glengths;
 }
-
+function pt(){
+    alert("Bing Bong");
+}
 module.exports = renderWaveLane;
 
 /* eslint-env browser */
