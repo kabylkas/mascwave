@@ -10,17 +10,13 @@
   <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="index.css">
 
-<body onload="upload_file">
+<body onload="WaveDrom.ProcessAll()">
 <!-- Start: Menu Bar -->
 <div style="display:table;table-layout:fixed;background-color:#dddddd;width:100%">
 
-<div class="top_menu" id="top_menu_file">
-	<button onclick="dropdown()" class="dropbtn">Dropdown</button>
-  		<div id="myDropdown" class="dropdown-content">
-		    <a href="#">Link 1</a>
-		    <a href="#">Link 2</a>
-		    <a href="#">Link 3</a>
-		</div>
+<div class="top_menu" style="background-color: #fffff;">
+	<label for="myFile">File</label>
+	<input type="file" id="myFile" multiple size="50" onchange="upload_file()" style="display: none;"> 
 </div>
 <div class="top_menu" id="top_menu_edit">Edit</div>
 <div class="top_menu" id="top_menu_search">Search</div>
@@ -30,20 +26,27 @@
 <div class="top_menu" id="top_menu_help">Help</div>
 </div>
 
-
-<input type="file" id="myFile" multiple size="50" onchange="upload_file()">
 <br>
 <!-- End: Menu Bar -->
 
 <!-- Start: Wavedrom -->
 <div id="wave_window" style="width:50%;float:left">
 <script id="demo1" type="WaveDrom">
-
+	{ signal : [
+{name: "I-1", wave: '=...=', node: '\u0001', data: ["iAALU"]},
+{name: "I-2", wave: 'x=...=', node: '.\u0002', data: ["iAALU"]},
+{name: "I-3", wave: 'x.=...=', node: '..\u0003', data: ["iAALU"]},
+{name: "I-5", wave: 'x..=...=', node: '...\u0005', data: ["iLALU_LD"]},
+{name: "I-8", wave: '=...=', node: '\u0008', data: ["iAALU"]},
+{name: "I-9", wave: 'x=...=', node: '.\u0009', data: ["iAALU"]},
+{name: "I-10", wave: 'x..=...=', node: '...\u000a', data: ["iLALU_LD"]},
+{name: "I-11", wave: 'x..=...=', node: '...\u000b', data: ["iLALU_LD"]}
+]}
 </script>
 </div>
 <!-- End: Wavedrom -->
 <script>
-function myFunction() {
+function dropdown() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
