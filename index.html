@@ -10,10 +10,18 @@
   <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="index.css">
 
-<body onload="WaveDrom.ProcessAll()">
+<body onload="upload_file">
 <!-- Start: Menu Bar -->
 <div style="display:table;table-layout:fixed;background-color:#dddddd;width:100%">
-<div class="top_menu" id="top_menu_file">File</div>
+
+<div class="top_menu" id="top_menu_file">
+	<button onclick="dropdown()" class="dropbtn">Dropdown</button>
+  		<div id="myDropdown" class="dropdown-content">
+		    <a href="#">Link 1</a>
+		    <a href="#">Link 2</a>
+		    <a href="#">Link 3</a>
+		</div>
+</div>
 <div class="top_menu" id="top_menu_edit">Edit</div>
 <div class="top_menu" id="top_menu_search">Search</div>
 <div class="top_menu" id="top_menu_time">Time</div>
@@ -21,23 +29,86 @@
 <div class="top_menu" id="top_menu_view">View</div>
 <div class="top_menu" id="top_menu_help">Help</div>
 </div>
+
+
+<input type="file" id="myFile" multiple size="50" onchange="upload_file()">
+<br>
 <!-- End: Menu Bar -->
 
 <!-- Start: Wavedrom -->
 <div id="wave_window" style="width:50%;float:left">
-<script type="WaveDrom">
-{ signal : [
-  { name: "clk",  wave: "p........." },
-  { name: "bus",  wave: "x.34.5x...",   data: "head body tail" },
-  { name: "wire", wave: "0.1..0...." },
-]}
+<script id="demo1" type="WaveDrom">
+
 </script>
 </div>
 <!-- End: Wavedrom -->
 <script>
-//$(document).ready( function() {
-//$('#wave_window').animate({ 'zoom': 2.5 }, 400);
-//});
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+    
+<script>
+function upload_file(){
+    var x = document.getElementById("myFile");
+    var txt = "";
+    if ('files' in x) {
+        if (x.files.length == 0) {
+            txt = "Select one or more files.";
+        } else {
+            for (var i = 0; i < x.files.length; i++) {
+                /*txt += "<br><strong>" + (i+1) + ". file</strong><br>";
+                var file = x.files[i];
+                if ('name' in file) {
+                    txt += "name: " + file.name + "<br>";
+                }
+                if ('size' in file) {
+                    txt += "size: " + file.size + " bytes <br>";
+                }*/
+                var reader = new FileReader();
+                reader.onload = function(){
+                  txt = reader.result;
+                  console.log(txt);
+                  var k =document.getElementsByTagName("script");
+                  for (var i=0; i<k.length;i++){
+                  	if(k[i].type == "WaveDrom"){
+                  		k[i].text = txt;
+                  		console.log("yes");
+                  		WaveDrom.ProcessAll();
+                  	}
+                  }
+              };
+                reader.readAsText(x.files[i]);
+           
+
+            }
+        }
+    } 
+    else {
+        if (x.value == "") {
+            txt += "Select one or more files.";
+        } else {
+            txt += "The files property is not supported by your browser!";
+            txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+        }
+    }
+
+}
 </script>
 </body>
 

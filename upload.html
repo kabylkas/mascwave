@@ -5,6 +5,7 @@
 <input type="file" id="myFile" multiple size="50" onchange="myFunction()">
 
 <p id="demo"></p>
+<p id="demo1"></p>
     
 <script>
 function myFunction(){
@@ -23,6 +24,14 @@ function myFunction(){
                 if ('size' in file) {
                     txt += "size: " + file.size + " bytes <br>";
                 }
+                var reader = new FileReader();
+                reader.onload = function(){
+                  var stringz = reader.result.substring(0,reader.result.length);
+                  document.getElementById("demo1").innerHTML=stringz;
+              };
+                reader.readAsText(file);
+           
+
             }
         }
     } 
