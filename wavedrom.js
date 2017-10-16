@@ -2072,7 +2072,7 @@ function renderWaveLane (root, content, index, lane) {
                    b.onclick = function(e) {
                        var att_name = e.target.attributes.item(1).nodeName;
                        var att_val = e.target.attributes.item(1).nodeValue;
-                       if(att_val.includes("pclk") || att_val.includes("nclk"))
+                       //if(att_val.includes("pclk") || att_val.includes("nclk"))
                        if(att_val.includes("g")){
                             att_val = att_val.substr(0,att_val.length-1);
                        }else{
@@ -2083,6 +2083,22 @@ function renderWaveLane (root, content, index, lane) {
                        var p = 8;
                         //alert(att_name+"\n"+e.target.attributes.item(1).nodeValue);
                     }
+                    b.onmouseover=function(e){
+                        var att_val = e.target.attributes.item(1).nodeValue;
+                        if(att_val.includes("g")){
+                            att_val = att_val.substr(0,att_val.length-1);
+                       }
+                        var x = document.getElementById("snackbar");
+                        x.innerHTML = att_val;
+                        x.className = "show";
+                        //setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                    }
+                    b.onmouseout=function(e){
+                        var x = document.getElementById("snackbar");
+                        x.className = "";
+                        //setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                    }
+
 
                     b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
                     gg.insertBefore(b, null);

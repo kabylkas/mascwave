@@ -2,13 +2,20 @@
 <script src="default.js" type="text/javascript"></script>
 <script src="wavedrom.js" type="text/javascript"></script>
 <script src="narrow.js" type="text/javascript"></script>
+<script src="toastr.min.js"></script>
+
+
 
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="style.css">
+ 
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="index.css">
+<link href="toastr.min.css" rel="stylesheet"/>
+
+
 
 <body onload="WaveDrom.ProcessAll()">
 <!-- Start: Menu Bar -->
@@ -35,16 +42,10 @@
 <script id="demo1" type="WaveDrom">
 	{ signal : [
 {name: "I-1", wave: '=...=', node: '\u0001', data: ["iAALU"]},
-{name: "I-2", wave: 'x=...=', node: '.\u0002', data: ["iAALU"]},
-{name: "I-3", wave: 'x.=...=', node: '..\u0003', data: ["iAALU"]},
-{name: "I-5", wave: 'x..=...=', node: '...\u0005', data: ["iLALU_LD"]},
-{name: "I-8", wave: '=...=', node: '\u0008', data: ["iAALU"]},
-{name: "I-9", wave: 'x=...=', node: '.\u0009', data: ["iAALU"]},
-{name: "I-10", wave: 'x..=...=', node: '...\u000a', data: ["iLALU_LD"]},
-{name: "I-11", wave: 'x..=...=', node: '...\u000b', data: ["iLALU_LD"]}
 ]}
 </script>
 </div>
+<div id="snackbar">Toast the id</div>
 <!-- End: Wavedrom -->
 <script>
 function dropdown() {
