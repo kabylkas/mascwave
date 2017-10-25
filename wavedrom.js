@@ -2045,7 +2045,8 @@ function renderWaveLane (root, content, index, lane) {
                     y: lane.ym,
                     class: 'info',
                     'text-anchor': 'end',
-                    'xml:space': 'preserve'
+                    'xml:space': 'preserve',
+                    
                 }
             );
             title = jsonmlParse(title);
@@ -2129,7 +2130,7 @@ function renderWaveLane (root, content, index, lane) {
                                 title.unshift(
                                     'text',
                                     {
-                                        x: labels[k] * lane.xs + lane.xlabel,
+                                        x: labels[k] * lane.xs + lane.xlabel - (i-tmp_i)*lane.xs,
                                         y: lane.ym,
                                         'text-anchor': 'middle',
                                         'xml:space': 'preserve'
