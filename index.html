@@ -11,6 +11,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
  
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="index.css">
 <link href="toastr.min.css" rel="stylesheet"/>
@@ -21,18 +22,19 @@
 <!-- Start: Menu Bar -->
 <div style="display:table;table-layout:fixed;background-color:#dddddd;width:100%">
 
-<div class="top_menu" style="background-color: #fffff;">
-	<label for="myFile" style="font-size: 30px;">Click here to upload a dumpfile</label>
+<div class="top_menu" style="background-color: #fffff;display: inline-block;border-style: outset;">
+	<label for="myFile" style="font-size: 30px;">New WaveJSON</label>
 	<input type="file" id="myFile" multiple size="50" onchange="upload_file()" style="display: none;"> 
 </div>
-<!--
-<div class="top_menu" id="top_menu_edit">Edit</div>
-<div class="top_menu" id="top_menu_search">Search</div>
-<div class="top_menu" id="top_menu_time">Time</div>
-<div class="top_menu" id="top_menu_markers">Markers</div>
-<div class="top_menu" id="top_menu_view">View</div>
-<div class="top_menu" id="top_menu_help">Help</div>-->
+<div class="wave_menu" style="display: inline-block">
+	<button style="font-size:24px;border-style: outset;" onclick="changetime(-1)">left <i class="fa fa-arrow-circle-left"></i></button>
+	<button style="font-size:24px;border-style: outset;" onclick="changetime(1)">right <i class="fa fa-arrow-circle-right"></i></button>
+
 </div>
+
+</div>
+
+
 
 <br>
 <!-- End: Menu Bar -->
@@ -40,9 +42,18 @@
 <!-- Start: Wavedrom -->
 <div id="wave_window" style="width:50%;float:left">
 <script id="demo1" type="WaveDrom">
-	{ signal : [
-{name: "I-1", wave: '=...=', node: '\u0001', data: ["iAALU"]},
-]}
+	{ signal: [
+  { name: "pclk", wave: 'p.......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......' },
+  { name: "Pclk", wave: 'P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......P.......' },
+  { name: "nclk", wave: 'n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......n.......' },
+  { name: "Nclk", wave: 'N.......' },
+  {},
+  { name: 'clk0', wave: 'phnlPHNL' },
+  { name: 'clk1', wave: 'xhlhLHl.' },
+  { name: 'clk2', wave: 'hpHplnLn' },
+  { name: 'clk3', wave: 'nhNhplPl' },
+  { name: 'clk4', wave: 'xlh.L.Hx' },
+	]}
 </script>
 </div>
 <div id="snackbar">Toast the id</div>
@@ -69,6 +80,8 @@ window.onclick = function(event) {
 </script>
     
 <script>
+	var window_size = 21, start_time=0;
+	var iroot, icontent,iindex,ilane;
 function upload_file(){
     var x = document.getElementById("myFile");
     var txt = "";
@@ -112,6 +125,22 @@ function upload_file(){
             txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
         }
     }
+
+}
+
+function changetime(k){
+		if(k > 0){
+			start_time+= 2;
+			window_size+= 2;
+		}
+	else{
+		if(start_time > 0){
+			start_time-=2;
+			window_size-=2;
+		}
+	}
+	WaveDrom.EditorRefresh();
+	console.log(start_time+' '+window_size);
 
 }
 </script>

@@ -1,0 +1,147 @@
+
+$date
+ 
+<date_and_time_specification>
+ 
+$end
+$version
+ 
+<software_version>
+ 
+$end
+$timescale
+1 ps
+$end
+$scope module top $end
+$var port [15:0] <0 AB $end
+$var port 1 <1 CLK $end
+$var port 1 <2 EN $end
+$var port 1 <3 ERR $end
+$var port 1 <4 WR $end
+$upscope $end
+ 
+$enddefinitions $end
+ 
+#0
+$dumpvars
+pDDDDDDDDDDDDDDDD 6666666666666666 0000000000000000 <0
+pD 6 0 <1
+pD 6 0 <2
+pL 6 0 <3
+pH 0 6 <4
+$end
+#10
+pU 0 6 <1
+#20
+pD 6 0 <1
+#30
+pU 0 6 <1
+#40
+pD 6 0 <1
+#45
+pU 0 6 <2
+#50
+pU 0 6 <1
+#60
+pD 6 0 <1
+pD 6 0 <2
+#70
+pU 0 6 <1
+#80
+pD 6 0 <1
+#85
+pU 0 6 <2
+#90
+pU 0 6 <1
+#100
+pD 6 0 <1
+pD 6 0 <2
+#110
+pU 0 6 <1
+#120
+pD 6 0 <1
+#125
+pU 0 6 <2
+#130
+pU 0 6 <1
+#140
+pD 6 0 <1
+pD 6 0 <2
+#150
+pU 0 6 <1
+#160
+pD 6 0 <1
+#165
+pU 0 6 <2
+#170
+pU 0 6 <1
+#180
+pD 6 0 <1
+pD 6 0 <2
+#190
+pU 0 6 <1
+#200
+pD 6 0 <1
+#205
+pU 0 6 <2
+#210
+pU 0 6 <1
+#220
+pD 6 0 <1
+pD 6 0 <2
+#230
+pU 0 6 <1
+#240
+pD 6 0 <1
+#245
+pU 0 6 <2
+#250
+pDDDDDDDDUUUUDDDD 6666666600006666 0000000066660000 <0
+pU 0 6 <1
+#260
+pD 6 0 <1
+pD 6 0 <2
+#270
+pU 0 6 <1
+#280
+pD 6 0 <1
+#285
+pU 0 6 <2
+#290
+pDDDDDDDDUUUUUUUU 6666666600000000 0000000066666666 <0
+pU 0 6 <1
+#300
+pD 6 0 <1
+pD 6 0 <2
+#310
+pU 0 6 <1
+#320
+pD 6 0 <1
+#325
+pU 0 6 <2
+#330
+pU 0 6 <1
+#340
+pD 6 0 <1
+pD 6 0 <2
+#350
+pU 0 6 <1
+#360
+pD 6 0 <1
+#365
+pU 0 6 <2
+#370
+pU 0 6 <1
+#380
+pD 6 0 <1
+pD 6 0 <2
+#390
+pU 0 6 <1
+#400
+$dumpall
+pDDDDDDDDUUUUUUUU 6666666600000000 0000000066666666 <0
+pU 0 6 <1
+pD 6 0 <2
+pL 6 0 <3
+pH 0 6 <4
+$end

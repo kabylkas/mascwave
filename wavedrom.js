@@ -919,6 +919,7 @@ module.exports = parse;
     }
 }
 
+
 module.exports = trimWhitespace;
 
 /* eslint-env browser */
@@ -926,6 +927,7 @@ module.exports = trimWhitespace;
 },{}],17:[function(require,module,exports){
 'use strict';
 
+//MZI-NOTE: Lane info saved in this variable
 var lane = {
     xs     : 20,    // tmpgraphlane0.width
     ys     : 20,    // tmpgraphlane0.height
@@ -1127,10 +1129,10 @@ function data_extract (e, num_unseen_markers) {
     return ret_data;
 }
 
-function parseWaveLanes (sig, lane) {
+function parseWaveLanes (sig, lane) { //MZI-NOTE: sig contains list of waves e.g. I1,I2,clk,en in wavejson format
     var x,
         sigx,
-        content = [],
+        content = [], //MZI-NOTE: content contains list of waves e.g. I1,I2,clk,en
         content_wave,
         parsed_wave_lane,
         num_unseen_markers,
@@ -1147,7 +1149,7 @@ function parseWaveLanes (sig, lane) {
         // xmin_cfg is min. brick of hbounds, add 1/2 to sigx.phase of all sigs
         tmp0[1] = (sigx.phase || 0) + lane.xmin_cfg/2;
         if ( sigx.wave ) {
-            parsed_wave_lane = parseWaveLane(sigx.wave, lane.period * lane.hscale - 1, lane);
+            parsed_wave_lane = parseWaveLane(sigx.wave, lane.period * lane.hscale - 1, lane); //MZI-NOTE: parsed_wave_lane contains the signals in one wave e.g. pclk,Pclk,nclk in wavejson format
             content_wave = parsed_wave_lane[0] ;
             num_unseen_markers = parsed_wave_lane[1];
         } else {
@@ -1180,13 +1182,16 @@ function processAll () {
         node0;
         // node1;
 
-    // first pass
+    //MZI-NOTE:
+    // Adds ID for the Wavedrom scripts
+    // Creates the DIV DOMs on the Main HTML
     index = 0; // actual number of valid anchor
     points = document.querySelectorAll('*');
     for (i = 0; i < points.length; i++) {
         if (points.item(i).type && points.item(i).type === 'WaveDrom') {
+        
             points.item(i).setAttribute('id', 'InputJSON_' + index);
-
+            
             node0 = document.createElement('div');
             //          node0.className += 'WaveDrom_Display_' + index;
             node0.id = 'WaveDrom_Display_' + index;
@@ -1195,7 +1200,7 @@ function processAll () {
             index += 1;
         }
     }
-    // second pass
+    //MZI-NOTE: Inserts the waveforms on those DIVs by id
     for (i = 0; i < index; i += 1) {
         renderWaveForm(i, eva('InputJSON_' + i), 'WaveDrom_Display_');
         appendSaveAsDialog(i, 'WaveDrom_Display_');
@@ -1807,7 +1812,7 @@ var tspan = require('tspan'),
     // w3 = require('./w3');
 
 function renderMarks (root, content, index, lane) {
-    var i, g, marks, mstep, mmstep, gy; // svgns
+    var tmp_i,i, g, marks, mstep, mmstep, gy; // svgns
 
     function captext (cxt, anchor, y) {
         var tmark;
@@ -1903,18 +1908,21 @@ function renderMarks (root, content, index, lane) {
      g = jsonmlParse(['g', {id: ('gmarks_' + index)}]);
      root.insertBefore(g, root.firstChild);
 
-     for (i = 0; i < (marks + 1); i += 1) {
+    //for (i = 0; i < (marks + 1); i += 1) {
+        tmp_i =0;
+        for (i = (start_time/2); (i < (window_size/2) ) && (tmp_i < (marks + 1)) ; i += 1) {//MZI-MOD: change the mark size
          g.insertBefore(
              jsonmlParse([
                  'path',
                  {
-                     id:    'gmark_' + i + '_' + index,
-                     d:     'm ' + (i * mmstep) + ',' + 0 + ' 0,' + gy,
+                     id:    'gmark_' + tmp_i + '_' + index,
+                     d:     'm ' + (tmp_i * mmstep) + ',' + 0 + ' 0,' + gy,
                      style: 'stroke:#888;stroke-width:0.5;stroke-dasharray:1,3'
                  }
              ]),
              null
          );
+                     tmp_i++;//MZI_MOD: Temporary Variable for keeping the signals on the line.
      }
 
      captext(lane, 'head', (lane.yh0 ? -33 : -13));
@@ -1948,7 +1956,8 @@ var rec = require('./rec'),
     insertSVGTemplate = require('./insert-svg-template'),
     insertSVGTemplateAssign = require('./insert-svg-template-assign');
 
-//MZI-NOTE: This renders the entire image group on the HTML
+//MZI-NOTE: Source generated in eva is put inside the DIV created in ProcessAll.
+    // output is another DIV created inside the main SVG DIV created in ProcessAll
 function renderWaveForm (index, source, output) {
     //alert('Rendering WaveForm');
     var ret,
@@ -1965,6 +1974,7 @@ function renderWaveForm (index, source, output) {
         glengths = renderWaveLane(root, content, index, lane);
         for (i in glengths) {
             xmax = Math.max(xmax, (glengths[i] + ret.width[i]));
+            console.log(content[i][0][0]);
         }
         renderMarks(root, content, index, lane);
         renderArcs(root, ret.lanes, index, source, lane);
@@ -2055,9 +2065,13 @@ function renderWaveLane (root, content, index, lane) {
                 }
             ]);
             g.insertBefore(gg, null);
-
+            while (gg.childNodes.length) {
+                gg.removeChild(gg.childNodes[0]);
+            }
+            var tmp_i=0; //MZI-MOD: Temporary variable for keeping the elements on line
             if (content[j][1]) {
-                for (i = 0; i < content[j][1].length; i += 1) {
+                //for (i = 0; i < content[j][1].length; i += 1) {
+                    for (i = start_time; (i < window_size) && (tmp_i < content[j][1].length); i += 1) { //MZI-MOD Show only the size of the window
                     b = document.createElementNS(w3.svg, 'use');
                      var my_id = 'use_' + i + '_' + j + '_' + index;
                      b.id = my_id;
@@ -2099,9 +2113,11 @@ function renderWaveLane (root, content, index, lane) {
                         //setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
                     }
 
-
-                    b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
+                    //console.log(window_size);
+                    b.setAttribute('transform', 'translate(' + (tmp_i * lane.xs) + ')');
                     gg.insertBefore(b, null);
+                    tmp_i++;
+
                 }
                 if (content[j][2] && content[j][2].length) {
                     labels = findLaneMarkers(content[j][1]);
@@ -2134,11 +2150,11 @@ function renderWaveLane (root, content, index, lane) {
     // xmax if no xmax_cfg,xmin_cfg, else set to config
     lane.xmax = Math.min(xmax, lane.xmax_cfg - lane.xmin_cfg);
     lane.xg = xgmax + 20;
-
+    iroot = root;
+    iindex = index;
+    icontent = content;
+    ilane= lane;
     return glengths;
-}
-function pt(){
-    alert("Bing Bong");
 }
 module.exports = renderWaveLane;
 
