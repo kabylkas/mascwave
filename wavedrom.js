@@ -34,8 +34,10 @@ function appendSaveAsDialog (index, output) {
     }
 
     div = document.getElementById(output + index);
+     //div = document.getElementById(output);//MZI-MOD: Save button
+     var savebutton = document.getElementById("save_image");
 
-    div.childNodes[0].addEventListener('contextmenu',
+    savebutton.addEventListener('click',
         function (e) {
             var list, savePng, saveSvg;
 
@@ -1204,6 +1206,8 @@ function processAll () {
     for (i = 0; i < index; i += 1) {
         renderWaveForm(i, eva('InputJSON_' + i), 'WaveDrom_Display_');
         appendSaveAsDialog(i, 'WaveDrom_Display_');
+        //appendSaveAsDialog(i, 'save_image'); //MZI-MOD:
+
     }
     // add styles
     document.head.innerHTML += '<style type="text/css">div.wavedromMenu{position:fixed;border:solid 1pt#CCCCCC;background-color:white;box-shadow:0px 10px 20px #808080;cursor:default;margin:0px;padding:0px;}div.wavedromMenu>ul{margin:0px;padding:0px;}div.wavedromMenu>ul>li{padding:2px 10px;list-style:none;}div.wavedromMenu>ul>li:hover{background-color:#b5d5ff;}h1.wave-unit:hover{fill:#0000ff;}</style>';
@@ -1279,7 +1283,7 @@ var tspan = require('tspan'),
          if (from && to) {
              gmark = document.createElementNS(w3.svg, 'path');
              gmark.id = ('gmark_' + Edge.from + '_' + Edge.to);
-             gmark.setAttribute('d', 'M ' + from.x + ',' + from.y + ' ' + to.x   + ',' + to.y);
+             gmark.setAttribute('d', 'M ' + from.x + ',' + from.y + ' ' + to.x   + ',' + to.y); 
              gmark.setAttribute('style', 'fill:none;stroke:#00F;stroke-width:1');
              gg.insertBefore(gmark, null);
          }
@@ -1297,7 +1301,7 @@ var tspan = require('tspan'),
                      eventname = Stack.shift();
                      if (eventname !== '.') {
                          Events[eventname] = {
-                             'x' : lane.xs * (2 * pos * lane.period * lane.hscale - lane.phase) + lane.xlabel,
+                             'x' : lane.xs * (2 * pos * lane.period * lane.hscale - lane.phase) + lane.xlabel -lane.xs*start_time, //MZI-MOD: Move the arc box
                              'y' : i * lane.yo + lane.y0 + lane.ys * 0.5
                          };
                      }
@@ -1731,6 +1735,7 @@ function renderGaps (root, source, index, lane) {
             if (text) {
                 Stack = text.split('');
                 pos = 0;
+                var tmp_i=0;
                 while (Stack.length) {
                     next = Stack.shift();
                     if (next === '<') { // sub-cycles on
@@ -1750,9 +1755,10 @@ function renderGaps (root, source, index, lane) {
                         b    = document.createElementNS(w3.svg, 'use');
                         // b.id = 'guse_' + pos + '_' + i + '_' + index;
                         b.setAttributeNS(w3.xlink, 'xlink:href', '#gap');
-                        b.setAttribute('transform', 'translate(' + (lane.xs * ((pos - (subCycle ? 0 : lane.period)) * lane.hscale - lane.phase)) + ')');
+                        b.setAttribute('transform', 'translate(' + (lane.xs * ((pos - (subCycle ? 0 : lane.period)) * lane.hscale - lane.phase)-lane.xs*start_time) + ')');//MZI-MOD:
                         g.insertBefore(b, null);
                     }
+                    tmp_i++;
                 }
             }
         }
@@ -2084,7 +2090,8 @@ function renderWaveLane (root, content, index, lane) {
                     //b.setAttribute('onmouseover','var k=4;alert("You hovered over '+content[j][1][i]+' "+k+" "+i );');//MZI-MOD Add Attribute to wavelength.
                     //var mzi = k;//MZI-MOD Add hover effect
                     // b.setAttribute('transform', 'translate(' + (i * lane.xs) + ')');
-                   b.onclick = function(e) {
+                   b.onmousedown = function(e) {
+
                        var att_name = e.target.attributes.item(1).nodeName;
                        var att_val = e.target.attributes.item(1).nodeValue;
                        //if(att_val.includes("pclk") || att_val.includes("nclk"))
@@ -2098,6 +2105,7 @@ function renderWaveLane (root, content, index, lane) {
                        var p = 8;
                         //alert(att_name+"\n"+e.target.attributes.item(1).nodeValue);
                     }
+
                     b.onmouseover=function(e){
                         var att_val = e.target.attributes.item(1).nodeValue;
                         if(att_val.includes("g")){
@@ -2115,7 +2123,7 @@ function renderWaveLane (root, content, index, lane) {
                     }
 
                     //console.log(window_size);
-                    b.setAttribute('transform', 'translate(' + (tmp_i * lane.xs) + ')');
+                    b.setAttribute('transform', 'translate(' + (tmp_i * lane.xs) + ')'); //MZI-MOD: Shiftablity of waves
                     gg.insertBefore(b, null);
                     tmp_i++;
 
@@ -2130,10 +2138,11 @@ function renderWaveLane (root, content, index, lane) {
                                 title.unshift(
                                     'text',
                                     {
-                                        x: labels[k] * lane.xs + lane.xlabel - (i-tmp_i)*lane.xs,
+                                        x: labels[k] * lane.xs + lane.xlabel - (i-tmp_i)*lane.xs, //MZI-MOD: Shiftablility of text
                                         y: lane.ym,
                                         'text-anchor': 'middle',
                                         'xml:space': 'preserve'
+                                        
                                     }
                                 );
                                 title = jsonmlParse(title);

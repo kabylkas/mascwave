@@ -18,18 +18,18 @@
 
 
 
-<body onload="WaveDrom.ProcessAll()">
+<body onload="WaveDrom.ProcessAll()" style="overflow:hidden;">
 <!-- Start: Menu Bar -->
-<div style="display:table;table-layout:fixed;background-color:#dddddd;width:100%">
+<div style="display:table;table-layout:fixed;background-color:#dddddd;width:100%; position:static;">
 
-<div class="top_menu" style="background-color: #fffff;display: inline-block;border-style: outset;">
+<div class="top_menu" style="background-color: #fffff;display: inline-block;border-style: outset; ">
 	<label for="myFile" style="font-size: 30px;">New WaveJSON</label>
 	<input type="file" id="myFile" multiple size="50" onchange="upload_file()" style="display: none;"> 
 </div>
-<div class="wave_menu" style="display: inline-block">
+<div class="wave_menu" style="display: inline-block;">
 	<button style="font-size:24px;border-style: outset;" onclick="changetime(-1)">left <i class="fa fa-arrow-circle-left"></i></button>
 	<button style="font-size:24px;border-style: outset;" onclick="changetime(1)">right <i class="fa fa-arrow-circle-right"></i></button>
-
+  <button id="save_image" style="font-size:24px;border-style: outset;"> Save </button>
 </div>
 
 </div>
@@ -40,7 +40,7 @@
 <!-- End: Menu Bar -->
 
 <!-- Start: Wavedrom -->
-<div id="wave_window" style="width:50%;float:left">
+<div id="wave_window" style="width:100%;float:left;overflow-y:scroll;height: 80%">
 <script id="demo1" type="WaveDrom">
 	{ signal: [
   { name: "pclk", wave: 'p.......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......p......' },
@@ -54,6 +54,7 @@
   { name: 'clk3', wave: 'nhNhplPl' },
   { name: 'clk4', wave: 'xlh.L.Hx' },
 	]}
+
 </script>
 </div>
 <div id="snackbar">Toast the id</div>
@@ -81,7 +82,9 @@ window.onclick = function(event) {
     
 <script>
 	var window_size = 21, start_time=0;
+  var imoved = 0;
 	var iroot, icontent,iindex,ilane;
+  var mouse_down = 0;
 function upload_file(){
     var x = document.getElementById("myFile");
     var txt = "";
@@ -107,7 +110,8 @@ function upload_file(){
                   	if(k[i].type == "WaveDrom"){
                   		k[i].text = txt;
                   		console.log("yes");
-                  		WaveDrom.ProcessAll();
+                      window_size = 21; start_time=0;
+                  		WaveDrom.EditorRefresh();
                   	}
                   }
               };
@@ -116,6 +120,7 @@ function upload_file(){
 
             }
         }
+
     } 
     else {
         if (x.value == "") {
@@ -129,7 +134,8 @@ function upload_file(){
 }
 
 function changetime(k){
-		if(k > 0){
+    imoved = 1;
+	if(k > 0){
 			start_time+= 2;
 			window_size+= 2;
 		}
