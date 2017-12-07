@@ -1909,8 +1909,8 @@ function renderMarks (root, content, index, lane) {
      mstep  = 2 * (lane.hscale);
      mmstep = mstep * lane.xs;
      marks  = lane.xmax / mstep;
-     gy     = content.length * lane.yo;
-
+     //gy     = content.length * lane.yo;
+     gy = v_size * lane.yo; //MZI-MOD: draws gmark only upto v_size amount wave lanes
      g = jsonmlParse(['g', {id: ('gmarks_' + index)}]);
      root.insertBefore(g, root.firstChild);
 
@@ -1988,9 +1988,8 @@ function renderWaveForm (index, source, output) {
         groups.insertBefore(jsonmlParse(renderGroups(ret.groups, index, lane)), null);
         lane.xg = Math.ceil((xmax - lane.tgo) / lane.xs) * lane.xs;
         width  = (lane.xg + (lane.xs * (lane.xmax + 1)));
-        height = (content.length * lane.yo +
-        lane.yh0 + lane.yh1 + lane.yf0 + lane.yf1);
-
+        //height = (content.length * lane.yo + lane.yh0 + lane.yh1 + lane.yf0 + lane.yf1);
+        height = (v_size * lane.yo + lane.yh0 + lane.yh1 + lane.yf0 + lane.yf1);
         svgcontent = document.getElementById('svgcontent_' + index);
         svgcontent.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
         svgcontent.setAttribute('width', width);
@@ -2032,14 +2031,14 @@ function renderWaveLane (root, content, index, lane) {
         xmax     = 0,
         xgmax    = 0,
         glengths = [];
-
-    for (j = 0; j < content.length; j += 1) {
+    var tmp_j=0;
+    for (j = v_start_time; (tmp_j < content.length) && (j < v_size); j += 1 ) { //MZI_MOD: Show only couple signals at a time
         name = content[j][0][0];
         if (name) { // check name
             g = jsonmlParse(['g',
                 {
                     id: 'wavelane_' + j + '_' + index,
-                    transform: 'translate(0,' + ((lane.y0) + j * lane.yo) + ')'
+                    transform: 'translate(0,' + ((lane.y0) + j * lane.yo - v_start_time*lane.yo) + ')'
                 }
             ]);
             root.insertBefore(g, null);
@@ -2154,6 +2153,7 @@ function renderWaveLane (root, content, index, lane) {
                 if (content[j][1].length > xmax) {
                     xmax = content[j][1].length;
                 }
+                tmp_j += 1;
             }
         }
     }

@@ -1,3 +1,15 @@
+var app = require('express')();
+var http = require('http').Server(app);
+
+app.get('/', function(req, res){
+  res.send('<h1>Hello world</h1>');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
+
+
 var http = require('http');
 var formidable = require('formidable');
 var fs = require('fs');
@@ -23,3 +35,4 @@ http.createServer(function (req, res) {
     return res.end();
   }
 }).listen(8080);
+

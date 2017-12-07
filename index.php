@@ -22,13 +22,24 @@
 <!-- Start: Menu Bar -->
 <div style="display:table;table-layout:fixed;background-color:#dddddd;width:100%; position:static;">
 
-<div class="top_menu" style="background-color: #fffff;display: inline-block;border-style: outset; ">
+<!---<div class="top_menu" style="background-color: #fffff;display: inline-block;border-style: outset; ">
 	<label for="myFile" style="font-size: 30px;">New WaveJSON</label>
 	<input type="file" id="myFile" multiple size="50" onchange="upload_file()" style="display: none;"> 
-</div>
+</div> -->
+<form action="#" method="post" enctype="multipart/form-data" >
+  <input type="file" name="Upload File">
+  <input type="submit" name="Submit">
+</form>
+
+<?php
+
+?>
+
 <div class="wave_menu" style="display: inline-block;">
-	<button style="font-size:24px;border-style: outset;" onclick="changetime(-1)">left <i class="fa fa-arrow-circle-left"></i></button>
-	<button style="font-size:24px;border-style: outset;" onclick="changetime(1)">right <i class="fa fa-arrow-circle-right"></i></button>
+	<button style="font-size:24px;border-style: outset;" onclick="changetime(-1)">Left <i class="fa fa-arrow-circle-left"></i></button>
+	<button style="font-size:24px;border-style: outset;" onclick="changetime(1)">Right <i class="fa fa-arrow-circle-right"></i></button>
+  <button style="font-size:24px;border-style: outset;" onclick="changesignal(-1)">Up <i class="fa fa-arrow-circle-up"></i></button>
+  <button style="font-size:24px;border-style: outset;" onclick="changesignal(1)">Down <i class="fa fa-arrow-circle-down"></i></button>
   <button id="save_image" style="font-size:24px;border-style: outset;"> Save </button>
 </div>
 
@@ -83,6 +94,9 @@ window.onclick = function(event) {
 <script>
 	var window_size = 21, start_time=0;
   var imoved = 0;
+  var v_size = 10;
+  var v_start_time = 0;
+  var v_moved = 0;
 	var iroot, icontent,iindex,ilane;
   var mouse_down = 0;
 function upload_file(){
@@ -147,6 +161,23 @@ function changetime(k){
 	}
 	WaveDrom.EditorRefresh();
 	console.log(start_time+' '+window_size);
+
+}
+
+function changesignal(k){
+    v_moved = 1;
+  if(k > 0){
+      v_start_time+= 2;
+      v_size+= 2;
+    }
+  else{
+    if(v_start_time > 0){
+      v_start_time-=2;
+      v_size-=2;
+    }
+  }
+  WaveDrom.EditorRefresh();
+  console.log(v_start_time+' '+v_size);
 
 }
 </script>
