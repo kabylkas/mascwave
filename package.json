@@ -22,6 +22,11 @@
   "homepage": "https://github.com/kabylkas/mascwave#readme",
   "dependencies": {
     "express": "^4.15.2",
-    "socket.io": "^2.0.4"
+    "express-fileupload": "^0.3.0",
+    "formidable": "^1.1.1",
+    "node-cache": "^4.1.1",
+    "parse-files": "^0.1.1",
+    "socket.io": "^2.0.4",
+    "wavedrom": "^1.6.2"
   }
 }

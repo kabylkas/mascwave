@@ -174,7 +174,7 @@ function editorRefresh () {
     //  sjson,
     //  ajson;
 
-    renderWaveForm(0, eva('InputJSON_0'), 'WaveDrom_Display_');
+    renderWaveForm(0, clientdata.server_source, 'WaveDrom_Display_');
 
     /*
     svg = document.getElementById('svgcontent_0');
@@ -1187,7 +1187,7 @@ function processAll () {
     //MZI-NOTE:
     // Adds ID for the Wavedrom scripts
     // Creates the DIV DOMs on the Main HTML
-    index = 0; // actual number of valid anchor
+ /*   index = 0; // actual number of valid anchor
     points = document.querySelectorAll('*');
     for (i = 0; i < points.length; i++) {
         if (points.item(i).type && points.item(i).type === 'WaveDrom') {
@@ -1208,7 +1208,16 @@ function processAll () {
         appendSaveAsDialog(i, 'WaveDrom_Display_');
         //appendSaveAsDialog(i, 'save_image'); //MZI-MOD:
 
-    }
+    }*/
+	//create display unit
+	index = 0;
+	var par = document.getElementById('wave_window');
+	node0 = document.createElement('div');
+	node0.id = 'WaveDrom_Display_' + index;
+	par.appendChild(node0);
+	//render waveforms
+	renderWaveForm(0, clientdata.server_source, 'WaveDrom_Display_');
+    appendSaveAsDialog(i, 'WaveDrom_Display_');
     // add styles
     document.head.innerHTML += '<style type="text/css">div.wavedromMenu{position:fixed;border:solid 1pt#CCCCCC;background-color:white;box-shadow:0px 10px 20px #808080;cursor:default;margin:0px;padding:0px;}div.wavedromMenu>ul{margin:0px;padding:0px;}div.wavedromMenu>ul>li{padding:2px 10px;list-style:none;}div.wavedromMenu>ul>li:hover{background-color:#b5d5ff;}h1.wave-unit:hover{fill:#0000ff;}</style>';
 }
@@ -2032,13 +2041,13 @@ function renderWaveLane (root, content, index, lane) {
         xgmax    = 0,
         glengths = [];
     var tmp_j=0;
-    for (j = v_start_time; (tmp_j < content.length) && (j < v_size); j += 1 ) { //MZI_MOD: Show only couple signals at a time
-        name = content[j][0][0];
+    for (j = 0; (j < content.length); j += 1 ) { //MZI_MOD: Show only couple signals at a time
+        try {name = content[j][0][0];} catch(err){}
         if (name) { // check name
             g = jsonmlParse(['g',
                 {
                     id: 'wavelane_' + j + '_' + index,
-                    transform: 'translate(0,' + ((lane.y0) + j * lane.yo - v_start_time*lane.yo) + ')'
+                    transform: 'translate(0,' + ((lane.y0) + j * lane.yo) + ')' //- v_start_time*lane.yo) + ')'
                 }
             ]);
             root.insertBefore(g, null);
