@@ -1181,8 +1181,8 @@ function processAll () {
     var points,
         i,
         index,
-        node0;
-        // node1;
+        node0,
+        node1;
 
     //MZI-NOTE:
     // Adds ID for the Wavedrom scripts
@@ -1214,10 +1214,45 @@ function processAll () {
 	var par = document.getElementById('wave_window');
 	node0 = document.createElement('div');
 	node0.id = 'WaveDrom_Display_' + index;
+	node0.style = 'width: 50%; float:left';
 	par.appendChild(node0);
+	
+	node1 = document.createElement('div');
+	node1.id = 'WaveDrom_Form_' + index;
+	node1.style = 'width: 50%; float:right; height:100%; background-color:red;';
+	
+	var node1_form = document.createElement('form');
+	node1_form.ref='Form';
+    node1_form.id='Form'
+	node1_form.onsubmit= submission();
+	node1_form.action = 'http://54.219.189.158:5901/upload' ;
+	node1_form.method='post' ;
+    node1_form.encType="multipart/form-data";
+	
+	var node1_form_textarea = document.createElement('textarea');
+	node1_form_textarea.name = 'tight_form_text';
+	node1_form_textarea.style='width:100%;height:90%;';
+	node1_form.appendChild(node1_form_textarea);
+	
+	var node1_form_hidden = document.createElement('input');
+	node1_form_hidden.type = 'hidden';
+	node1_form_hidden.name = 'tight_form_id';
+	node1_form_hidden.value = document.getElementById('fileName').value;
+	node1_form.appendChild(node1_form_hidden);
+	
+	
+	var node1_form_submit = document.createElement('input');
+	node1_form_submit.type = 'submit';
+	node1_form_submit.style = 'width:100%;height:10%;';
+	node1_form.appendChild(node1_form_submit);
+	
+	node1.appendChild(node1_form);
+	
+	par.appendChild(node1);
+	
 	//render waveforms
 	renderWaveForm(0, clientdata.server_source, 'WaveDrom_Display_');
-    appendSaveAsDialog(i, 'WaveDrom_Display_');
+    appendSaveAsDialog(0, 'WaveDrom_Display_');
     // add styles
     document.head.innerHTML += '<style type="text/css">div.wavedromMenu{position:fixed;border:solid 1pt#CCCCCC;background-color:white;box-shadow:0px 10px 20px #808080;cursor:default;margin:0px;padding:0px;}div.wavedromMenu>ul{margin:0px;padding:0px;}div.wavedromMenu>ul>li{padding:2px 10px;list-style:none;}div.wavedromMenu>ul>li:hover{background-color:#b5d5ff;}h1.wave-unit:hover{fill:#0000ff;}</style>';
 }

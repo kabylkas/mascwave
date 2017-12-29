@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/kabylkas/mascwave#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect": "^3.6.5",
+    "csv-string": "^3.1.2",
     "express": "^4.15.2",
     "express-fileupload": "^0.3.0",
     "formidable": "^1.1.1",

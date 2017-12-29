@@ -26,10 +26,12 @@
 	<label for="myFile" style="font-size: 30px;">New WaveJSON</label>
 	<input type="file" id="myFile" multiple size="50" onchange="upload_file()" style="display: none;"> 
 </div> -->
+<!--
 <form action="#" method="post" enctype="multipart/form-data" >
   <input type="file" name="Upload File">
   <input type="submit" name="Submit">
 </form>
+-->
 
 <!------------File Upload for ExpressJS-------->
 
@@ -46,27 +48,6 @@
 <!------------------------------------------>
 <script src="/socket.io/socket.io.js"></script>
 
-<script>
-var clientdata = {
-	socketid : null,
-	filename : null,
- 	start_time : 0,
-    window_size : 21,
-	v_start_time : 0,
-    v_size : 10,
-	source_size : 10,
-	server_source : {signal:[{ name: 'I-18', wave: '=...=', node: '\u0012', data: [ 'iAALU' ] }]}
-}
-var socket;
-var window_size = 21, start_time=0;
-var imoved = 0;
-var v_size = 10;
-var v_start_time = 0;
-var v_moved = 0;
-var iroot, icontent,iindex,ilane;
-var mouse_down = 0;
-
-</script>
 
 <div class="wave_menu" style="display: inline-block;">
 	<button style="font-size:24px;border-style: outset;" onclick="changetime(-1)">Left <i class="fa fa-arrow-circle-left"></i></button>
@@ -89,7 +70,28 @@ var mouse_down = 0;
 </div>
 <div id="snackbar">Toast the id</div>
 <!-- End: Wavedrom -->
+    
 <script>
+var clientdata = {
+	socketid : null,
+	filename : null,
+ 	start_time : 0,
+    window_size : 21,
+	v_start_time : 0,
+    v_size : 10,
+	source_size : 10,
+	server_source : {signal:[{ name: 'I-18', wave: '=...=', node: '\u0012', data: [ 'iAALU' ] }]}
+}
+var socket;
+var window_size = 21, start_time=0;
+var imoved = 0;
+var v_size = 10;
+var v_start_time = 0;
+var v_moved = 0;
+var iroot, icontent,iindex,ilane;
+var mouse_down = 0;
+
+//upload the file
 function dropdown() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
@@ -108,11 +110,6 @@ window.onclick = function(event) {
     }
   }
 }
-</script>
-    
-<script>
-
-//upload the file
 function upload_file(){
     var x = document.getElementById("myFile");
     var txt = "";
@@ -232,7 +229,7 @@ function getCookie(cname) {
 function checkCookie() {
     var user = getCookie("filename");
     if (user != "") {
-        alert("Welcome again " + user);
+        alert("Welcome again. Here is the Last Wave you worked on.");
 		return true;
     } 
 	else
@@ -258,6 +255,8 @@ function bodyload(){
 			var x = document.getElementById("fileName");
 			x.setAttribute("value",data);
 			console.log(x.value);
+			WaveDrom.ProcessAll();
+
 		}
 		console.log(data);
 	});
@@ -265,13 +264,13 @@ function bodyload(){
 		clientdata.filename = getCookie("filename");
 		socket.emit('requestfile', clientdata);
 	}
-	WaveDrom.ProcessAll();
+	
 	
 }
 
 function submission(){
 	var e = document.getElementById("fileName").value;
-	alert(e);
+	//alert(e);
 	setCookie("filename",e,3);
 
 }

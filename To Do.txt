@@ -5,4 +5,15 @@ To Do
 3. Eval parsed file 		   - Done
 4. Send chunk of evaled object based on request -Done
 5. Tight visualization
+	a. Edit Text Box - Done
+	b. Send code to Server - Done
+	c. Eval code - Done
+	d. Generate the eval value in waveform
 6. Z-Index for navigation
+7. Keyboard Input
+	a. Navigate left right
+	b. Zoom hotkey
+8. Add cookie for clientdata object (Pick up where you left feature)
+9. Let user customize window
+10. Delete previous files
+11. File name based on socket and time
