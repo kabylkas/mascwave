@@ -35,14 +35,14 @@
 
 <!------------File Upload for ExpressJS-------->
 
-    <form ref='uploadForm' onsubmit="submission()"
+    <form ref='uploadForm'
       id='uploadForm' 
       action='http://54.219.189.158:5901/upload' 
       method='post' 
       encType="multipart/form-data">
 		<input type="hidden" id= "fileName" name="fileName" value="none"/>
         <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload!' />
+        <input type='submit' id="file_submit" onclick="submission(event)" value='Upload!' />
     </form>
 
 <!------------------------------------------>
@@ -66,7 +66,18 @@
 
 <!-- Start: Wavedrom -->
 <div id="wave_window" style="width:100%;float:left;overflow-y:scroll;height: 80%">
-
+	<div id = 'WaveDrom_Display_0' style = 'width: 50%; float:left' ></div>
+	<div id = 'WaveDrom_Form_0' style = 'width: 50%; float:right; height:100%' >
+		<form ref='Form' id='Form' action = 'http://54.219.189.158:5901/upload' method='post' encType="multipart/form-data">
+			<textarea readonly style='resize:none;float:left;width:7%;height:90%;font-size:20px;line-height:30px;overflow-y:hidden;background-color:#ccc'>1&nbsp2&nbsp3&nbsp4&nbsp5&nbsp6&nbsp7&nbsp8&nbsp9&nbsp10
+			</textarea>
+			<textarea name = 'tight_form_text' id='tight_form_text' style='resize:none;float:right;width:93%;height:90%;font-size:20px;line-height:30px;overflow-y:hidden;white-space:nowrap;'></textarea>
+			<input type = 'hidden' id='tight_form_id' name = 'tight_form_id' value = 'none' />
+			<input type='submit' id='code_submit' onclick="submission(event)" style = 'width:100%;height:10%;' />
+		</form>
+	</div>
+	<div></div>
+	
 </div>
 <div id="snackbar">Toast the id</div>
 <!-- End: Wavedrom -->
@@ -80,7 +91,8 @@ var clientdata = {
 	v_start_time : 0,
     v_size : 10,
 	source_size : 10,
-	server_source : {signal:[{ name: 'I-18', wave: '=...=', node: '\u0012', data: [ 'iAALU' ] }]}
+	server_source : {signal:[{ name: 'I-18', wave: '=...=', node: '\u0012', data: [ 'iAALU' ] }]},
+	code_text: ''
 }
 var socket;
 var window_size = 21, start_time=0;
@@ -90,6 +102,7 @@ var v_start_time = 0;
 var v_moved = 0;
 var iroot, icontent,iindex,ilane;
 var mouse_down = 0;
+var text_check = false;
 
 //upload the file
 function dropdown() {
@@ -234,16 +247,16 @@ function checkCookie() {
     } 
 	else
 		return false;
-		/*else {
-        user = prompt("Please enter your name:", "");
-        if (user != "" && user != null) {
-            setCookie("username", user, 365);
-        }
-    }*/
 }
 
 function bodyload(){
 	socket = io();
+	window.addEventListener("keydown", checkKeyPressed, false);
+	
+	var el = document.getElementById("tight_form_text");
+	el.addEventListener("focusin", myFocusFunction);
+	el.addEventListener("focusout", myBlurFunction);
+
 	socket.on('serverdata',function(data){
 		clientdata = data;
 		console.log(clientdata);
@@ -251,9 +264,15 @@ function bodyload(){
 	});
 	socket.on('initdata',function(data){
 		if (data){
-			clientdata.socketid = data;
+			if(getCookie('code') == 'yes'){
+				document.getElementById("tight_form_text").value = localStorage.getItem('code');
+				clientdata.socketid = data;
+				setCookie('code','no',1);
+			}
 			var x = document.getElementById("fileName");
 			x.setAttribute("value",data);
+			var y = document.getElementById("tight_form_id");
+			y.setAttribute("value",data);
 			console.log(x.value);
 			WaveDrom.ProcessAll();
 
@@ -268,9 +287,49 @@ function bodyload(){
 	
 }
 
-function submission(){
+function myFocusFunction() {
+    text_check = true;
+}
+
+function myBlurFunction() {
+    text_check = false;  
+}
+ 
+function checkKeyPressed(e) {
+	if(!text_check)
+        switch(e.keyCode) {
+        case 37:
+            // left key pressed
+			changetime(-1);
+            break;
+        case 38:
+            // up key pressed
+			changesignal(-1);
+            break;
+        case 39:
+            // right key pressed
+			changetime(1);
+            break;
+        case 40:
+            // down key pressed
+			changesignal(1);
+            break;  
+    } 
+}
+
+function submission(event){
 	var e = document.getElementById("fileName").value;
-	//alert(e);
+	if(event.target.id == 'code_submit'){
+		var c = document.getElementById("tight_form_text").value;
+		clientdata.code_text = c;
+		if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+			alert('Its Safari');
+		} else {
+			localStorage.setItem('code',c);
+		}
+		setCookie('code','yes',1);
+
+	}
 	setCookie("filename",e,3);
 
 }

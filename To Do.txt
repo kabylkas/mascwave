@@ -8,12 +8,15 @@ To Do
 	a. Edit Text Box - Done
 	b. Send code to Server - Done
 	c. Eval code - Done
-	d. Generate the eval value in waveform
+	d. Generate the eval value in waveform - Done
 6. Z-Index for navigation
 7. Keyboard Input
-	a. Navigate left right
+	a. Navigate left right - Done
 	b. Zoom hotkey
-8. Add cookie for clientdata object (Pick up where you left feature)
-9. Let user customize window
+8. 
+9.
 10. Delete previous files
 11. File name based on socket and time
+12. Add line number to textarea - Done
+13. Align textarea line to wavelane - Done
+14. modularize tight visualization for multiple inputs - Done
