@@ -2111,13 +2111,21 @@ function renderWaveLane (root, content, index, lane) {
                         for (k in labels) {
                             if (content[j][2] && (typeof content[j][2][k] !== 'undefined')) {
                                 title = tspan.parse(content[j][2][k]);
+								var stl;
+								if (labels[k] * lane.xs + lane.xlabel - (i-tmp_i)*lane.xs > 10){
+									stl = "visibility: visible;";
+								} else
+								{
+									stl = "visibility: hidden;";
+								}
                                 title.unshift(
                                     'text',
                                     {
                                         x: labels[k] * lane.xs + lane.xlabel - (i-tmp_i)*lane.xs, //MZI-MOD: Shiftablility of text
                                         y: lane.ym,
                                         'text-anchor': 'middle',
-                                        'xml:space': 'preserve'
+                                        'xml:space': 'preserve',
+										style: stl
                                         
                                     }
                                 );
