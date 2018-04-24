@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const io = require('socket.io')(http,{
 	cookie: true
 });
-const debug = false;
+const debug = true;
 
 var file = {
     name: "",
@@ -98,7 +98,8 @@ io.on('connection',function(socket){
 	socket.on('clientdata', function(data){
 		console.log(data.filename+"\n"+data.socketid+": \n start time:"+data.start_time+"\n window size:"+data.window_size+ "\n element start: "+data.v_start_time+"\n element end:"+data.v_size);
 		if(k != undefined){ //Makes sure k is defined
-			data.server_source.signal = k.signal.slice(data.v_start_time,data.v_size);
+			data.server_source.signal = k.signal.slice(data.v_start_time,data.v_size+1);
+			//slice_big_signal(data,k);
 			if(debug) console.log("Source" + data.server_source);
 		}
 		var a = 0;
@@ -107,7 +108,7 @@ io.on('connection',function(socket){
 		socket.emit('serverdata', data);
 	});
 	
-//On client request file
+//On client request file data
 	socket.on('requestfile', function(userdata){
 		//console.log("user data prior\n"+ userdata.server_source.signal);
 		if(userdata.filename != null){
@@ -119,11 +120,12 @@ io.on('connection',function(socket){
 					k = eval('('+data+')');
 				}
 				catch(err) {
-					
+					console.log(err);
 				}
 				userdata.source_size = k.signal.length;
-				if(debug) console.log("size: "+ userdata.source_size);
-				userdata.server_source.signal = k.signal.slice(userdata.v_start_time,userdata.v_size);
+				if(debug) console.log("size: "+ userdata.source_size + "\n"+userdata);
+				userdata.server_source.signal = k.signal.slice(userdata.v_start_time,userdata.v_size+1);
+				//slice_big_signal(userdata,k);
 				if(debug) console.log("Chunk of data \n" + JSON.stringify(userdata.server_source.signal,null,4));
 				socket.emit('serverdata', userdata);
 			}
@@ -136,7 +138,6 @@ io.on('connection',function(socket){
 
 //On client send file
 	
-
 // Start Server
 var server = http.listen(5901, function(){
     console.log('Listening on port %d', server.address().port);

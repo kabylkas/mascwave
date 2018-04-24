@@ -48,9 +48,9 @@ function appendSaveAsDialog (index, output) {
             menu.style.left = e.x + 'px';
 
             list = document.createElement('ul');
-            savePng = document.createElement('li');
+            /*savePng = document.createElement('li');
             savePng.innerHTML = 'Save as PNG';
-            list.appendChild(savePng);
+            list.appendChild(savePng);*/
 
             saveSvg = document.createElement('li');
             saveSvg.innerHTML = 'Save as SVG';
@@ -64,7 +64,7 @@ function appendSaveAsDialog (index, output) {
 
             document.body.appendChild(menu);
 
-            savePng.addEventListener('click',
+            /*savePng.addEventListener('click',
                 function () {
                     var html, firstDiv, svgdata, img, canvas, context, pngdata, a;
 
@@ -94,7 +94,7 @@ function appendSaveAsDialog (index, output) {
                     document.body.removeEventListener('mousedown', closeMenu, false);
                 },
                 false
-            );
+            );*/
 
             saveSvg.addEventListener('click',
                 function () {

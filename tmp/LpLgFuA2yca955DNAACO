@@ -1,3 +1,0 @@
-{ signal: [
-  { name: "pclk", wave: 'p.......' },
-]}
